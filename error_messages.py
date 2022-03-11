@@ -20,9 +20,19 @@ class InvalidInputVoltageError(Exception):
 
 class WrongInputVoltageDimensionError(Exception):
     '''
-    The Input Voltage is of the wrong length for this compute block
+    The Input Voltage is of the wrong length for this block
     '''
 
     def __init__(self, expected_length):
-        self.message = f"The Input Voltage is of the wrong length for this compute block. Expected length of {expected_length}."
+        self.message = f"The Input Voltage is of the wrong length for this block. Expected length of {expected_length}."
+        super().__init__(self.message)
+
+
+class WrongShiftRegisterSetDimension(Exception):
+    '''
+    Input Value to be set is of wrong dimesion for this block 
+    '''
+
+    def __init__(self, expected_length):
+        self.message = f"The Input Values is of the wrong length for this block. Expected length of {expected_length}."
         super().__init__(self.message)

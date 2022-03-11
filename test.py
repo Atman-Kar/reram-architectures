@@ -12,7 +12,7 @@ class TestTwoByTwoMVM(unittest.TestCase):
 
         mat = mvm_two_by_two()
         mat.step_clock()
-        self.assertEqual(mat.get_shift_reg_value(), 0)
+        self.assertEqual(mat.get_shift_reg_values(), [0, 0])
 
     def test_step_clock(self):
 
@@ -33,7 +33,7 @@ class TestTwoByTwoMVM(unittest.TestCase):
 
     def test_update_conductance_matrix(self):
         mat = mvm_two_by_two()
-        mat.update_conductance_matrix([[1, 1], [3, 3]])
+        mat.set_conductance_matrix([[1, 1], [3, 3]])
         expected_matrix = [[1, 1],
                            [3, 3]]
         matrix = mat.get_conductance_matrix()
@@ -42,7 +42,37 @@ class TestTwoByTwoMVM(unittest.TestCase):
     def test_conductance_matrix_exception_error(self):
         mat = mvm_two_by_two()
         with self.assertRaises(WrongConductanceMatrixError):
-            mat.update_conductance_matrix([0])
+            mat.set_conductance_matrix([0])
+
+    def test_invalid_input_voltage_vector_value(self):
+        mat = mvm_two_by_two()
+        with self.assertRaises(InvalidInputVoltageError):
+            mat.crossbar_multiply([12, 0])
+
+    def test_wrong_input_voltage_dimension(self):
+        mat = mvm_two_by_two()
+        with self.assertRaises(WrongInputVoltageDimensionError):
+            mat.crossbar_multiply([0, 1, 1, 0, 1])
+
+    def test_wrong_input_shift_reg_dimension(self):
+        mat = mvm_two_by_two()
+        with self.assertRaises(WrongShiftRegisterSetDimension):
+            mat.set_shift_register([3, 2, 1, 1, 1, 4, 5, 6])
+
+    def test_set_shift_register(self):
+        mat = mvm_two_by_two()
+        mat.set_shift_register([7, 4])
+        self.assertEqual(mat.get_shift_reg_values(), [7, 4])
+
+    def test_single_bit_crossbar_multiplier(self):
+        mat = mvm_two_by_two()
+        mat.set_conductance_matrix([[1, 2],
+                                    [3, 2]])
+        input_v = [1,
+                   0]
+        mat.crossbar_multiply(input_v=input_v)
+        output_current_vector = mat.get_shift_reg_values()
+        self.assertEqual(output_current_vector, [1, 2])
 
 
 if __name__ == "__main__":

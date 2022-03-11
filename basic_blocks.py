@@ -5,6 +5,7 @@ Guide: Abhijit Pethe
 This file contains all the basic building blocks to create more complex architectures. 
 '''
 
+from typing import List
 from error_messages import *
 
 
@@ -27,11 +28,11 @@ class mvm_two_by_two ():
         '''
         Defining class variables for the required input data
         '''
-        self.shift_reg_output = 0
+        self.shift_reg_output = [0, 0]
         self.conductance_matrix = [[0, 0],
                                    [0, 0]]
 
-    def get_shift_reg_value(self):
+    def get_shift_reg_values(self):
         '''
         Get the current value stored in the shift register
         '''
@@ -43,7 +44,7 @@ class mvm_two_by_two ():
         '''
         return self.conductance_matrix
 
-    def update_conductance_matrix(self, matrix):
+    def set_conductance_matrix(self, matrix):
         '''
         Update the conductance matrix output
 
@@ -61,7 +62,19 @@ class mvm_two_by_two ():
         # If assert passes, update!
         self.conductance_matrix = matrix
 
-    def crossbar_multiply(self, input_v):
+    def set_shift_register(self, values: List[int]):
+        '''
+        Set the Value of the Output Shift register
+        '''
+
+        if len(values) != 2:
+            raise WrongShiftRegisterSetDimension(
+                expected_length=2
+            )
+
+        self.shift_reg_output = values
+
+    def crossbar_multiply(self, input_v: List[int]):
         '''
         Multiply G with V (MVM)
 
@@ -69,10 +82,10 @@ class mvm_two_by_two ():
         '''
 
         for v in input_v:
-            if v != 0 or v != 1:
+            if v not in [0, 1]:
                 raise InvalidInputVoltageError()
 
-        if len(v) != 2:
+        if len(input_v) != 2:
             raise WrongInputVoltageDimensionError(
                 expected_length=2
             )
@@ -84,6 +97,8 @@ class mvm_two_by_two ():
             (input_v[1]*self.conductance_matrix[1][1])
 
         output_current_vector = [I1, I2]
+
+        self.set_shift_register(output_current_vector)
 
         return output_current_vector
 
