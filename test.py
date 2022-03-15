@@ -100,18 +100,18 @@ class TestTwoByTwoMAC(unittest.TestCase):
         mat.set_conductance_matrix([[1, 3],
                                     [2, 1]])
 
-        # Start multiplication - LSB first
+        # Start multiplication - MSB first
         input_v = [1,
-                   0]
+                   1]
         mat.crossbar_multiply(input_v=input_v)
         mat.step_clock()
 
         # Shift the shift reg to the left once
         mat.leftshift_shift_reg()
 
-        # Multiply the MSB val and add to shift reg
+        # Now add the LSB crossbar product
         input_v = [1,
-                   1]
+                   0]
         mat.crossbar_multiply(input_v=input_v)
         mat.step_clock()
 
@@ -119,7 +119,7 @@ class TestTwoByTwoMAC(unittest.TestCase):
                                   11]
 
         test_vector_output = mat.get_shift_reg_values()
-        self.assertTrue(test_vector_output, expected_vector_output)
+        self.assertEqual(test_vector_output, expected_vector_output)
 
 
 if __name__ == "__main__":
