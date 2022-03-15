@@ -48,7 +48,7 @@ class mvm_two_by_two ():
         '''
         Update the conductance matrix output
 
-        TODO: Check the number of bits of conductance matrix
+        TODO: Account for clock cycles?
         '''
 
         expected_dimensions = (2, 2)  # (Rows , Columns)
@@ -98,11 +98,28 @@ class mvm_two_by_two ():
 
         output_current_vector = [I1, I2]
 
-        self.set_shift_register(output_current_vector)
+        self.set_shift_register(self.shift_reg_add(output_current_vector))
 
         return output_current_vector
 
+    def leftshift_shift_reg(self):
+        '''
+        Bitshift the shift register to the left exactly once
+        '''
+
+        shift_reg_val = self.get_shift_reg_values()
+        shift_reg_val = [(i << 1) for i in shift_reg_val]
+        self.set_shift_register(shift_reg_val)
+
+    def shift_reg_add(self, vals):
+
+        return [self.shift_reg_output[0] + vals[0], self.shift_reg_output[1] + vals[1]]
+
     def step_clock(cls):
+        '''
+        Step da clock
+        '''
+
         cls.clock += 1
         cls.clock %= 2
 
