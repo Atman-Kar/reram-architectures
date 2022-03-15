@@ -112,8 +112,18 @@ class mvm_two_by_two ():
         self.set_shift_register(shift_reg_val)
 
     def shift_reg_add(self, vals):
+        '''
+        Add incoming value vals to old shift reg value
+        '''
 
         return [self.shift_reg_output[0] + vals[0], self.shift_reg_output[1] + vals[1]]
+
+    def clear_shift_reg(self):
+        '''
+        Clear the shift reg - back to [0, 0]
+        '''
+
+        self.shift_reg_output = [0, 0]
 
     def step_clock(cls):
         '''
