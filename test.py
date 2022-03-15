@@ -3,7 +3,7 @@ from basic_blocks import mvm_two_by_two
 from error_messages import *
 
 
-class TestTwoByTwoMVM(unittest.TestCase):
+class TestTwoByTwoMVMMethods(unittest.TestCase):
     '''
     Test the 2x2 MVM Class 
     '''
@@ -73,6 +73,53 @@ class TestTwoByTwoMVM(unittest.TestCase):
         mat.crossbar_multiply(input_v=input_v)
         output_current_vector = mat.get_shift_reg_values()
         self.assertEqual(output_current_vector, [1, 2])
+
+    def test_left_bitshift_shift_reg(self):
+        mat = mvm_two_by_two()
+        mat.set_shift_register([3, 2])
+        mat.leftshift_shift_reg()
+        shift_reg_out = mat.get_shift_reg_values()
+        self.assertEqual(shift_reg_out, [6, 4])
+
+
+class TestTwoByTwoMAC(unittest.TestCase):
+    '''
+    Test some multiplier structures
+    '''
+
+    def test_multiply_and_accumulate_operation(self):
+        '''
+        Test the multiplication:
+
+            | 1    2| | 3 | = | 7 |
+            | 3    1| | 2 | = | 11|
+
+        Remember, the matrix above is stored as its transpose in the ReRAM crossbar 
+        '''
+        mat = mvm_two_by_two()
+        mat.set_conductance_matrix([[1, 3],
+                                    [2, 1]])
+
+        # Start multiplication - LSB first
+        input_v = [1,
+                   0]
+        mat.crossbar_multiply(input_v=input_v)
+        mat.step_clock()
+
+        # Shift the shift reg to the left once
+        mat.leftshift_shift_reg()
+
+        # Multiply the MSB val and add to shift reg
+        input_v = [1,
+                   1]
+        mat.crossbar_multiply(input_v=input_v)
+        mat.step_clock()
+
+        expected_vector_output = [7,
+                                  11]
+
+        test_vector_output = mat.get_shift_reg_values()
+        self.assertTrue(test_vector_output, expected_vector_output)
 
 
 if __name__ == "__main__":
