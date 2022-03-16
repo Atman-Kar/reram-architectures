@@ -1,2 +1,6 @@
 *.pyc
 *.json
+basic_blocks/__pycache__
+test/__pycache__
+__pycache__
+.vscode

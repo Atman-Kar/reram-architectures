@@ -1,6 +1,6 @@
 import unittest
-from basic_blocks import mvm_two_by_two
-from error_messages import *
+from basic_blocks.mvm_two_bit import mvm_two_by_two
+from error.error_mvm_two_by_two import *
 
 
 class TestTwoByTwoMVMMethods(unittest.TestCase):

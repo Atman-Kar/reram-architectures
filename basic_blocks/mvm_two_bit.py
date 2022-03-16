@@ -6,7 +6,7 @@ This file contains all the basic building blocks to create more complex architec
 '''
 
 from typing import List
-from error_messages import *
+from error.error_mvm_two_by_two import *
 
 
 class mvm_two_by_two ():
@@ -128,9 +128,9 @@ class mvm_two_by_two ():
     def step_clock(cls):
         '''
         Step da clock
+        Increase the clock count
         '''
 
         cls.clock += 1
-        cls.clock %= 2
 
         return cls.clock
