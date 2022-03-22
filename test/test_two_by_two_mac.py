@@ -1,6 +1,10 @@
 import unittest
+import os, sys
+dir_path = os.path.dirname(os.path.realpath(__file__))
+parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
+sys.path.insert(0, parent_dir_path)
 from basic_blocks.mvm_two_bit import mvm_two_by_two
-from error.error_mvm_two_by_two import *
+from error.error_crossbar import *
 
 
 class TestTwoByTwoMAC(unittest.TestCase):

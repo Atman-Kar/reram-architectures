@@ -6,7 +6,7 @@ This file contains all the basic building blocks to create more complex architec
 '''
 
 from typing import List
-from error.error_mvm_two_by_two import *
+from error.error_crossbar import *
 
 
 class mvm_two_by_two ():
@@ -102,13 +102,14 @@ class mvm_two_by_two ():
 
         return output_current_vector
 
-    def leftshift_shift_reg(self):
+    def leftshift_shift_reg(self, shifts=1):
         '''
-        Bitshift the shift register to the left exactly once
+        Bitshift the shift register to the left 
+        Default shifts by one
         '''
 
         shift_reg_val = self.get_shift_reg_values()
-        shift_reg_val = [(i << 1) for i in shift_reg_val]
+        shift_reg_val = [(i << shifts) for i in shift_reg_val]
         self.set_shift_register(shift_reg_val)
 
     def shift_reg_add(self, vals):
