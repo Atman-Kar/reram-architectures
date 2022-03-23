@@ -104,24 +104,24 @@ class mvm_four_by_four():
                      int((input_v[1] & (1 << 3)) > 0)]
 
         # Core 0 - MSB G and LSB V
-        self.mat_arr[0].crossbar_multiply(bit_pos_0)
-        self.mat_arr[0].leftshift_shift_reg()
         self.mat_arr[0].crossbar_multiply(bit_pos_1)
+        self.mat_arr[0].leftshift_shift_reg()
+        self.mat_arr[0].crossbar_multiply(bit_pos_0)
 
         # Core 1 - MSB G and MSB V
-        self.mat_arr[1].crossbar_multiply(bit_pos_2)
-        self.mat_arr[1].leftshift_shift_reg()
         self.mat_arr[1].crossbar_multiply(bit_pos_3)
+        self.mat_arr[1].leftshift_shift_reg()
+        self.mat_arr[1].crossbar_multiply(bit_pos_2)
 
         # Core 2 - LSB G and LSB V
-        self.mat_arr[2].crossbar_multiply(bit_pos_0)
-        self.mat_arr[2].leftshift_shift_reg()
         self.mat_arr[2].crossbar_multiply(bit_pos_1)
+        self.mat_arr[2].leftshift_shift_reg()
+        self.mat_arr[2].crossbar_multiply(bit_pos_0)
 
         # Core 3 - LSB G and MSB V
-        self.mat_arr[3].crossbar_multiply(bit_pos_2)
-        self.mat_arr[3].leftshift_shift_reg()
         self.mat_arr[3].crossbar_multiply(bit_pos_3)
+        self.mat_arr[3].leftshift_shift_reg()
+        self.mat_arr[3].crossbar_multiply(bit_pos_2)
 
         # Cores ready, shift and add
         # MSB/MSB - 4 left shifts
@@ -140,4 +140,7 @@ class mvm_four_by_four():
                                    self.mat_arr[3].get_shift_reg_values())]
         )
 
-        return self.shift_reg_output
+        return [self.mat_arr[0].get_shift_reg_values(),
+                self.mat_arr[1].get_shift_reg_values(),
+                self.mat_arr[2].get_shift_reg_values(),
+                self.mat_arr[3].get_shift_reg_values()]
