@@ -8,7 +8,7 @@ parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
 sys.path.insert(0, parent_dir_path)
 
 
-class TestFourByFourMVMMethods(unittest.TestCase):
+class TestFourBitMVMMethods(unittest.TestCase):
 
     def test_conductance_matrix_storage(self):
         mat = mvm_four_by_four()

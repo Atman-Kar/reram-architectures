@@ -8,7 +8,7 @@ parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
 sys.path.insert(0, parent_dir_path)
 
 
-class TestTwoByTwoMAC(unittest.TestCase):
+class TestTwoBitMAC(unittest.TestCase):
     '''
     Test some multiplier structures
     '''
